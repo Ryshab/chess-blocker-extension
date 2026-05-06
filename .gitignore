@@ -1,2 +1,4 @@
-.rpm
-.git
+*.rpm
+*.git
+logs
+*.logs
