@@ -1,23 +1,38 @@
 {
   "manifest_version": 3,
   "name": "Chess Blocker",
-  "version": "1.0",
-  "description": "Blocks chess after too many games",
-  "permissions": ["storage", "tabs"],
+  "version": "1.0.0",
+  "description": "Helps prevent compulsive chess playing by blocking Chess.com after 3 consecutive games.",
+
+  "permissions": ["storage","tabs"],
+
   "host_permissions": [
-    "*://www.chess.com/*",
-    "*://lichess.org/*"
+    "*://*.chess.com/*"
   ],
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.chess.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "*://www.chess.com/*",
-        "*://lichess.org/*"
-      ],
-      "js": ["content.js"]
-    }
-  ]
+
+  "icons": {
+    "1": "icons/icon.jpg"
+  },
+
+  "action": {
+    "default_title": "Chess Blocker"
+  },
+
+  "web_accessible_resources": [
+  {
+    "resources": ["icons/icon1.jpeg"],
+    "matches": ["<all_urls>"]
+  }
+]
 }

@@ -13,7 +13,7 @@ function incrementGameCount() {
 
       // If user has played 3 or more games → block
       if (count >= 3) {
-        const blockedUntil = Date.now() + 60000 * 5 // 2 hours in ms
+        const blockedUntil = Date.now() + 60000 * 60 // 1 hours in ms
 
         chrome.storage.local.set({ blockedUntil }, () => {
           console.log("User blocked until:", new Date(blockedUntil));
@@ -85,11 +85,33 @@ function blockUser(blockedUntil) {
 
   const timeleft = Math.ceil((blockedUntil - Date.now()) / 60000);
 
-  overlay.innerHTML = `
-    <h1>STOP PLAYING</h1>
-    <p>You have reached your limit of 3 games.</p>
-    <p>Come back in ${timeleft} minutes.</p>
+  const imageUrl = chrome.runtime.getURL("icons/icon1.jpeg");
+
+overlay.innerHTML = `
+    <div style="text-align: center; padding: 20px;">
+      <!-- Chess Timer Icon -->
+      <img src="${imageUrl}" 
+           alt="Chess Timer" 
+           style="width: 180px; height: 180px; margin-bottom: 30px;">
+      
+      <h1 style="font-size: 3em; margin: 0 0 20px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">STOP PLAYING</h1>
+      
+      <p style="font-size: 1.5em; margin: 10px 0;">You have reached your limit of 3 games.</p>
+      
+      <p style="font-size: 2em; margin: 20px 0; background: rgba(255,0,0,0.2); padding: 15px 30px; border-radius: 10px;">
+        Come back in <strong>${timeleft}</strong> minutes
+      </p>
+    </div>
   `;
+
+// overlay.innerHTML = `
+//   <img src="${imageUrl}" alt="Stop Playing" style="width:150px; margin-bottom:20px;" />
+//   <h1>STOP PLAYING</h1>
+//   <p>You have reached your limit of 3 games.</p>
+//   <p style="font-size: 2em; margin: 20px 0; background: rgba(255,0,0,0.2); padding: 15px 30px; border-radius: 10px;">
+//   Come back in ${timeleft} minutes.</p>
+// `;
+
 
   document.body.appendChild(overlay);
 }
